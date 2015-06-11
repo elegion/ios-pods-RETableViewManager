@@ -12,8 +12,25 @@
 
 - (NSString *)re_stringWithNumberFormat:(NSString *)format
 {
-    if (self.length == 0 || format.length == 0)
+    if (self.length == 0)
         return self;
+
+    if ([format length] < 1) {
+        NSMutableString *string = [self mutableCopy];
+        NSCharacterSet *noDigitCharacterSet = [[NSCharacterSet characterSetWithCharactersInString:@"0123456789"] invertedSet];
+
+        NSRange range = NSMakeRange(0, [string length]);
+        while (YES) {
+            NSRange searchRange = [string rangeOfCharacterFromSet:noDigitCharacterSet options:0 range:range];
+            if (searchRange.length == 0) {
+                break;
+            }
+            [string deleteCharactersInRange:searchRange];
+            range.location = searchRange.location;
+            range.length = [string length] - range.location;
+        }
+        return [string copy];
+    }
     
     format = [format stringByAppendingString:@"X"];
     NSString *string = [self stringByAppendingString:@"0"];

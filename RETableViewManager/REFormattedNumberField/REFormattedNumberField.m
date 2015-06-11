@@ -123,20 +123,29 @@
 
 - (NSRange)unformattedTextRangeWithRange:(NSRange)range
 {
-    if (![self.format length]) {
-        return range;
-    }
-
     NSRange unformattedTextRange = NSMakeRange(0, 0);
 
+    BOOL formatExists = [self.format length] > 0;
     for (NSInteger i = 0; i < range.location; ++i) {
-        if ([self.format characterAtIndex:i] == 'X') {
+        BOOL isDigit;
+        if (formatExists) {
+            isDigit = [self.format characterAtIndex:i] == 'X';
+        } else {
+            isDigit = isdigit([self.text characterAtIndex:i]);
+        }
+        if (isDigit) {
             ++unformattedTextRange.location;
         }
     }
 
     for (NSInteger i = range.location; i < (range.location + range.length); ++i) {
-        if ([self.format characterAtIndex:i] == 'X') {
+        BOOL isDigit;
+        if (formatExists) {
+            isDigit = [self.format characterAtIndex:i] == 'X';
+        } else {
+            isDigit = isdigit([self.text characterAtIndex:i]);
+        }
+        if (isDigit) {
             ++unformattedTextRange.length;
         }
     }
@@ -146,6 +155,10 @@
 
 - (NSRange)decimalRangeWithRange:(NSRange)range
 {
+    if ([self.format length] < 1) {
+        return range;
+    }
+
     NSRange decimalRange = range;
 
     for (NSInteger i = range.location + range.length - 1; i > 0; i--) {
@@ -165,7 +178,7 @@
 
 - (NSString *)unformattedText
 {
-    if (!self.format) {
+    if (![self.format length]) {
         NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"\\D" options:NSRegularExpressionCaseInsensitive error:NULL];
         return [regex stringByReplacingMatchesInString:self.text options:0 range:NSMakeRange(0, self.text.length) withTemplate:@""];
     }
