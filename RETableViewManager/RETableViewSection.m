@@ -28,8 +28,8 @@
 #import "NSString+RETableViewManagerAdditions.h"
 #import <float.h>
 
-CGFloat const RETableViewSectionHeaderHeightAutomatic = DBL_MAX;
-CGFloat const RETableViewSectionFooterHeightAutomatic = DBL_MAX;
+CGFloat const RETableViewSectionHeaderHeightAutomatic = CGFLOAT_MAX;
+CGFloat const RETableViewSectionFooterHeightAutomatic = CGFLOAT_MAX;
 
 @interface RETableViewSection ()
 

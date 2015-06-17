@@ -465,42 +465,6 @@
     return height ? height : UITableViewAutomaticDimension;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView estimatedHeightForHeaderInSection:(NSInteger)sectionIndex
-{
-    RETableViewSection *section = [self.mutableSections objectAtIndex:sectionIndex];
-    if (section.headerView)
-        return section.headerView.frame.size.height;
-    else if (section.headerTitle.length)
-        return self.defaultTableViewSectionHeight;
-    
-    // Forward to UITableView delegate
-    //
-    IF_IOS7_OR_GREATER (
-        if ([self.delegate conformsToProtocol:@protocol(UITableViewDelegate)] && [self.delegate respondsToSelector:@selector(tableView:estimatedHeightForHeaderInSection:)])
-            return [self.delegate tableView:tableView estimatedHeightForHeaderInSection:sectionIndex];
-    );
-    
-    return UITableViewAutomaticDimension;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView estimatedHeightForFooterInSection:(NSInteger)sectionIndex
-{
-    RETableViewSection *section = [self.mutableSections objectAtIndex:sectionIndex];
-    if (section.footerView)
-        return section.footerView.frame.size.height;
-    else if (section.footerTitle.length)
-        return self.defaultTableViewSectionHeight;
-    
-    // Forward to UITableView delegate
-    //
-    IF_IOS7_OR_GREATER (
-        if ([self.delegate conformsToProtocol:@protocol(UITableViewDelegate)] && [self.delegate respondsToSelector:@selector(tableView:estimatedHeightForFooterInSection:)])
-            return [self.delegate tableView:tableView estimatedHeightForFooterInSection:sectionIndex];
-    );
-    
-    return UITableViewAutomaticDimension;
-}
-
 // Section header & footer information. Views are preferred over title should you decide to provide both
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)sectionIndex
