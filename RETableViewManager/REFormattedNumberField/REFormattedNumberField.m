@@ -75,24 +75,6 @@
     return self.originalDelegate;
 }
 
-- (id)forwardingTargetForSelector:(SEL)aSelector
-{
-    if ([self.originalDelegate respondsToSelector:aSelector]) {
-        return self.originalDelegate;
-    }
-    return [super forwardingTargetForSelector:aSelector];
-}
-
-- (BOOL)respondsToSelector:(SEL)aSelector
-{
-    BOOL respondsToSelector = [super respondsToSelector:aSelector];
-
-    if (!respondsToSelector) {
-        respondsToSelector = [self.originalDelegate respondsToSelector:aSelector];
-    }
-    return respondsToSelector;
-}
-
 #pragma mark - UITextFieldDelegate
 
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string
@@ -117,6 +99,55 @@
     [self sendActionsForControlEvents:UIControlEventEditingChanged];
 
     return NO;
+}
+
+- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField
+{
+    BOOL shouldBeginEditing = YES;
+    if ([self.originalDelegate respondsToSelector:@selector(textFieldShouldBeginEditing:)]) {
+        shouldBeginEditing = [self.originalDelegate textFieldShouldBeginEditing:textField];
+    }
+    return shouldBeginEditing;
+}
+
+- (void)textFieldDidBeginEditing:(UITextField *)textField
+{
+    if ([self.originalDelegate respondsToSelector:@selector(textFieldDidBeginEditing:)]) {
+        [self.originalDelegate textFieldDidBeginEditing:textField];
+    }
+}
+- (BOOL)textFieldShouldEndEditing:(UITextField *)textField
+{
+    BOOL shouldEndEditing = YES;
+    if ([self.originalDelegate respondsToSelector:@selector(textFieldShouldEndEditing:)]) {
+        shouldEndEditing = [self.originalDelegate textFieldShouldEndEditing:textField];
+    }
+    return shouldEndEditing;
+}
+
+- (void)textFieldDidEndEditing:(UITextField *)textField
+{
+    if ([self.originalDelegate respondsToSelector:@selector(textFieldDidEndEditing:)]) {
+        [self.originalDelegate textFieldDidEndEditing:textField];
+    }
+}
+
+- (BOOL)textFieldShouldClear:(UITextField *)textField
+{
+    BOOL shouldClear = YES;
+    if ([self.originalDelegate respondsToSelector:@selector(textFieldShouldClear:)]) {
+        shouldClear = [self.originalDelegate textFieldShouldClear:textField];
+    }
+    return shouldClear;
+}
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField
+{
+    BOOL shouldReturn = YES;
+    if ([self.originalDelegate respondsToSelector:@selector(textFieldShouldReturn:)]) {
+        shouldReturn = [self.originalDelegate textFieldShouldReturn:textField];
+    }
+    return shouldReturn;
 }
 
 #pragma mark - Private methods
