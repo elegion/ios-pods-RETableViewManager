@@ -130,6 +130,7 @@
 
 - (void)willUnbindItem:(id)item
 {
+    self.accessoryView = nil;
 }
 
 - (void)didUnbindItem:(id)item
