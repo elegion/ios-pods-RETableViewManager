@@ -220,6 +220,12 @@
         loadCell(cell);
     }
     
+
+    RETableViewCell *oldCell = [tableView cellForRowAtIndexPath:item.indexPath];
+    if (oldCell.item == item) {
+        oldCell.item = nil;
+    }
+
     cell.rowIndex = indexPath.row;
     cell.sectionIndex = indexPath.section;
     cell.parentTableView = tableView;

@@ -118,7 +118,46 @@
 
 - (void)cellDidDisappear
 {
+}
 
+- (void)willBindItem:(id)item
+{
+}
+
+- (void)didBindItem:(RETableViewItem *)item
+{
+}
+
+- (void)willUnbindItem:(id)item
+{
+}
+
+- (void)didUnbindItem:(id)item
+{
+}
+
+- (void)setItem:(RETableViewItem *)item
+{
+    if (_item == item) {
+        return;
+    }
+
+    if (_item) {
+        [self willUnbindItem:_item];
+    }
+    if (item) {
+        [self willBindItem:item];
+    }
+    RETableViewItem *oldItem = _item;
+
+    _item = item;
+
+    if (oldItem) {
+        [self didUnbindItem:oldItem];
+    }
+    if (_item) {
+        [self didBindItem:_item];
+    }
 }
 
 - (void)layoutSubviews
