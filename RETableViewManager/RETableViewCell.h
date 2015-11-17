@@ -96,11 +96,11 @@ typedef NS_ENUM(NSInteger, RETableViewCellType) {
 - (void)cellWillAppear;
 - (void)cellDidDisappear;
 
-- (void)willBindItem:(id)item;
-- (void)didBindItem:(id)item;
+- (void)willBindItem:(RETableViewItem *)item NS_REQUIRES_SUPER;
+- (void)didBindItem:(RETableViewItem *)item NS_REQUIRES_SUPER;
 
-- (void)willUnbindItem:(id)item;
-- (void)didUnbindItem:(id)item;
+- (void)willUnbindItem:(RETableViewItem *)item NS_REQUIRES_SUPER;
+- (void)didUnbindItem:(RETableViewItem *)item NS_REQUIRES_SUPER;
 
 @property (assign, readonly, nonatomic) BOOL loaded;
 
