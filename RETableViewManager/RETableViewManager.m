@@ -779,6 +779,13 @@
         [self.delegate tableView:tableView performAction:action forRowAtIndexPath:indexPath withSender:sender];
 }
 
+- (NSArray<UITableViewRowAction *> *)tableView:(UITableView *)tableView editActionsForRowAtIndexPath:(NSIndexPath *)indexPath {
+    RETableViewSection *section = [self.mutableSections objectAtIndex:indexPath.section];
+    RETableViewItem *item = [section.items objectAtIndex:indexPath.row];
+    
+    return item.rowActions;
+}
+
 #pragma mark -
 #pragma mark UIScrollViewDelegate
 
